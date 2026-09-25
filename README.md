@@ -24,7 +24,7 @@ Docker Desktop is free for personal use, education, and small businesses (fewer 
 
 ## Open a terminal in the lab folder
 
-Download the lab files (**Code > Download ZIP** on GitHub) and extract them, or clone the repository. Then open a terminal in the `pacs-lab` folder:
+Download the lab files (**Code > Download ZIP** on GitHub) and extract them, or clone the repository. Then open a terminal in the lab folder. It is called `pacs-lab-main` if you downloaded the ZIP, or `pacs-lab` if you cloned the repository:
 
 | System | How |
 | :--- | :--- |
