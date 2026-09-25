@@ -1,0 +1,49 @@
+# Polyseminar PACS lab: a local Orthanc PACS with a browser viewer.
+# Lab use only. Load public, de-identified test data. Never load real patient data.
+# The same commands work on Windows, macOS, and Linux.
+name: pacs-lab
+
+services:
+  pacs:
+    image: orthancteam/orthanc:26.9.1
+    ports:
+      - "127.0.0.1:8042:8042"   # web interface and REST API
+      - "127.0.0.1:4242:4242"   # DICOM (used from video 2)
+    environment:
+      ORTHANC__NAME: "PACS lab"
+      ORTHANC_PASSWORD: "orthanc"         # user: orthanc, password: orthanc
+      OHIF_PLUGIN_ENABLED: "true"
+      DICOM_WEB_PLUGIN_ENABLED: "true"
+      STONE_WEB_VIEWER_PLUGIN_ENABLED: "true"
+    volumes:
+      - pacs-data:/var/lib/orthanc/db
+    healthcheck:
+      test: ["CMD", "/probes/test-aliveness.py"]
+      interval: 5s
+      retries: 12
+
+  # One-off helper: downloads the public test study into the "study" volume
+  # Run with: docker compose run --rm download
+  download:
+    image: python:3.12-slim
+    profiles: ["tools"]
+    working_dir: /study
+    volumes:
+      - study:/study
+    command: sh -c "pip install --quiet --root-user-action=ignore idc-index==0.12.5 && idc download PAN_03 && python -m zipfile -c PAN_03.zip ctpred_sunitinib_pannet && find ctpred_sunitinib_pannet -maxdepth 3 -type d"
+
+  # One-off helper: sends the downloaded study to the PACS
+  # Run with: docker compose run --rm upload
+  upload:
+    image: curlimages/curl:8.16.0
+    profiles: ["tools"]
+    depends_on:
+      pacs:
+        condition: service_healthy
+    volumes:
+      - study:/study:ro
+    command: ["--fail", "--silent", "--show-error", "-u", "orthanc:orthanc", "--data-binary", "@/study/PAN_03.zip", "-o", "/dev/null", "-w", "Upload finished (HTTP %{http_code})\n", "http://pacs:8042/instances"]
+
+volumes:
+  pacs-data:   # the PACS database and stored images
+  study:       # the downloaded test study
