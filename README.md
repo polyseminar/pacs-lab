@@ -131,6 +131,10 @@ Chen, L., Wang, W., Jin, K., Yuan, B., Tan, H., Sun, J., Guo, Y., Luo, Y., Feng,
 | The download stops with a network error | Run it again. |
 | The volume rendering views stay black | The graphics chip or its driver is too old for the 3D views (seen on a 2011 Intel HD Graphics). Update the graphics driver, or use a newer computer. The stack view still works. |
 
+## License
+
+The lab files (`compose.yaml`, this README) are under the [MIT License](LICENSE). The software the lab runs keeps its own license: Orthanc is GPL, OHIF is MIT, and the test data is CC BY 4.0 (see Test data). The Polyseminar videos and course materials are not covered by this license; they are © Polyseminar, all rights reserved.
+
 ## Independence
 
 Polyseminar is an independent education publisher. It is not affiliated with or endorsed by a certification body, professional society, healthcare provider, or imaging vendor. Orthanc, OHIF, TCIA, and IDC are the work of their own authors.
