@@ -30,7 +30,15 @@ services:
     working_dir: /study
     volumes:
       - study:/study
-    command: sh -c "pip install --quiet --root-user-action=ignore idc-index==0.12.5 && idc download PAN_03 && python -m zipfile -c PAN_03.zip ctpred_sunitinib_pannet && find ctpred_sunitinib_pannet -maxdepth 3 -type d"
+    # Install the IDC download tool, fetch one patient, zip it, list the folders
+    command:
+      - sh
+      - -c
+      - >-
+        pip install --quiet --disable-pip-version-check --root-user-action=ignore idc-index==0.12.5
+        && idc download PAN_03
+        && python -m zipfile -c PAN_03.zip ctpred_sunitinib_pannet
+        && find ctpred_sunitinib_pannet -maxdepth 3 -type d
 
   # One-off helper: sends the downloaded study to the PACS
   # Run with: docker compose run --rm upload
@@ -42,7 +50,20 @@ services:
         condition: service_healthy
     volumes:
       - study:/study:ro
-    command: ["--fail", "--silent", "--show-error", "-u", "orthanc:orthanc", "--data-binary", "@/study/PAN_03.zip", "-o", "/dev/null", "-w", "Upload finished (HTTP %{http_code})\n", "http://pacs:8042/instances"]
+    # Post the ZIP to the Orthanc REST API; Orthanc stores each DICOM file in it
+    command:
+      - --fail
+      - --silent
+      - --show-error
+      - -u
+      - orthanc:orthanc
+      - --data-binary
+      - "@/study/PAN_03.zip"
+      - -o
+      - /dev/null
+      - -w
+      - "Upload finished (HTTP %{http_code})\n"
+      - http://pacs:8042/instances
 
 volumes:
   pacs-data:   # the PACS database and stored images

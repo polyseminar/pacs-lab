@@ -12,7 +12,7 @@ This lab goes with the Polyseminar video "Build a free PACS on your laptop in 10
 
   | System | What to install |
   | :--- | :--- |
-  | Windows 11 | [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) with the WSL 2 backend (the default). The first setup of WSL 2 needs administrator rights once and may restart the computer. |
+  | Windows 11 | [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) with the WSL 2 backend (the default). Use the installer from that page. The first setup of WSL 2 needs administrator rights once and a restart. If you installed Docker Desktop from the Microsoft Store, see "Virtualization support not detected" under Troubleshooting. |
   | macOS | [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/) for Apple silicon or Intel |
   | Linux | [Docker Engine](https://docs.docker.com/engine/install/) with the Compose plugin |
 
@@ -24,11 +24,13 @@ Docker Desktop is free for personal use, education, and small businesses (fewer 
 
 ## Open a terminal in the lab folder
 
-Download the lab files (**Code > Download ZIP** on GitHub) and extract them, or clone the repository. Then open a terminal in the lab folder. It is called `pacs-lab-main` if you downloaded the ZIP, or `pacs-lab` if you cloned the repository:
+Download the lab files (**Code > Download ZIP** on GitHub) and extract them, or clone the repository. Then open a terminal in the lab folder, the folder that contains `compose.yaml`. It is called `pacs-lab-main` if you downloaded the ZIP, or `pacs-lab` if you cloned the repository.
+
+On Windows, **Extract All** puts the lab folder inside a folder of the same name: `Downloads\pacs-lab-main\pacs-lab-main`. Use the inner one.
 
 | System | How |
 | :--- | :--- |
-| Windows 11 | In File Explorer, right-click the folder and choose **Open in Terminal** |
+| Windows 11 | In File Explorer, open the outer `pacs-lab-main` folder, right-click the inner `pacs-lab-main` folder, and choose **Open in Terminal** |
 | macOS | Open Terminal, type `cd` and a space, drag the folder into the window, and press Enter |
 | Linux | In the file manager, right-click the folder and choose **Open in Terminal** |
 
@@ -103,6 +105,9 @@ Chen, L., Wang, W., Jin, K., Yuan, B., Tan, H., Sun, J., Guo, Y., Luo, Y., Feng,
 | Problem | Fix |
 | :--- | :--- |
 | `docker` is not recognized, or `command not found` | Install Docker, then open a new terminal. |
+| `no configuration file provided: not found` | The terminal is not in the lab folder. Open it in the folder that contains `compose.yaml`. On Windows that is the inner `pacs-lab-main`. |
+| Docker Desktop on Windows says "Virtualization support not detected" | Windows has not turned on WSL yet. This happens after an install from the Microsoft Store. Open Terminal as administrator, run `wsl --install --no-distribution`, restart the computer, then start Docker Desktop. Signing in to Docker does not fix it. |
+| A "Welcome to Windows Subsystem for Linux" window opens | Close it. Docker Desktop does not need it. |
 | `Cannot connect to the Docker daemon`, or an error that mentions `dockerDesktopLinuxEngine` | Start Docker Desktop and wait until it shows that the engine is running. On Linux, start the Docker service. |
 | `permission denied` on Linux | Put `sudo` in front of the command, or add your user to the `docker` group. |
 | Docker Desktop on Windows asks you to update WSL | Open a terminal as administrator, run `wsl --update`, then restart Docker Desktop. |
@@ -110,6 +115,7 @@ Chen, L., Wang, W., Jin, K., Yuan, B., Tan, H., Sun, J., Guo, Y., Luo, Y., Feng,
 | The sign-in prompt keeps returning | Use user `orthanc` and password `orthanc`. |
 | `error encountered when reading a file` from the upload | Run the download first (step 3). |
 | The download stops with a network error | Run it again. |
+| The volume rendering views stay black | The browser could not draw the 3D views on this computer's graphics. Update the graphics driver, or try another computer. Over Remote Desktop, try at the computer itself. The stack view still works. |
 
 ## Independence
 
