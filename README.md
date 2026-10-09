@@ -12,13 +12,28 @@ This lab goes with the Polyseminar video "Build a free PACS on your laptop in 10
 
   | System | What to install |
   | :--- | :--- |
-  | Windows 11 | [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) with the WSL 2 backend (the default). Use the installer from that page. The first setup of WSL 2 needs administrator rights once and a restart. If you installed Docker Desktop from the Microsoft Store, see "Virtualization support not detected" under Troubleshooting. |
+  | Windows 11 | Docker Desktop, then WSL. See [Install Docker on Windows](#install-docker-on-windows) below. |
   | macOS | [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/) for Apple silicon or Intel |
   | Linux | [Docker Engine](https://docs.docker.com/engine/install/) with the Compose plugin |
 
   Windows 10 and Windows Home editions should work but are not tested.
 
 - **About 4 GB of free disk space.** The Orthanc image uses about 2.6 GB and the study about 450 MB (the files plus a ZIP copy).
+
+### Install Docker on Windows
+
+1. Open the **Microsoft Store**, search for **Docker Desktop**, and click **Install**. It does not ask for an administrator.
+2. Turn on WSL, the Windows Subsystem for Linux, which Docker Desktop runs on. Click Start, type `Terminal`, right-click **Terminal**, and choose **Run as administrator**. Then run:
+
+   ```
+   wsl --install --no-distribution
+   ```
+
+   It downloads WSL and ends with "Changes will not be effective until the system is rebooted."
+3. Restart the computer.
+4. Start Docker Desktop and wait until it shows **Engine running**. If a "Welcome to Windows Subsystem for Linux" window opens, close it.
+
+Step 2 is the only one that needs administrator rights. If you installed Docker Desktop with the installer from [docker.com](https://docs.docker.com/desktop/setup/install/windows-install/) instead, it may have turned on WSL already; running step 2 again does no harm.
 
 Docker Desktop is free for personal use, education, and small businesses (fewer than 250 employees and less than $10 million in annual revenue). Larger organizations and government entities need a paid subscription ([Docker Desktop license terms](https://docs.docker.com/subscription-billing/desktop-license/)). On a work computer, ask your IT team before you install it.
 
@@ -106,8 +121,7 @@ Chen, L., Wang, W., Jin, K., Yuan, B., Tan, H., Sun, J., Guo, Y., Luo, Y., Feng,
 | :--- | :--- |
 | `docker` is not recognized, or `command not found` | Install Docker, then open a new terminal. |
 | `no configuration file provided: not found` | The terminal is not in the lab folder. Open it in the folder that contains `compose.yaml`. On Windows that is the inner `pacs-lab-main`. |
-| Docker Desktop on Windows says "Virtualization support not detected" | Windows has not turned on WSL yet. This happens after an install from the Microsoft Store. Open Terminal as administrator, run `wsl --install --no-distribution`, restart the computer, then start Docker Desktop. Signing in to Docker does not fix it. |
-| A "Welcome to Windows Subsystem for Linux" window opens | Close it. Docker Desktop does not need it. |
+| Docker Desktop on Windows says "Virtualization support not detected" | WSL is not turned on yet. Do steps 2 and 3 of [Install Docker on Windows](#install-docker-on-windows). Signing in to Docker does not fix it. |
 | `Cannot connect to the Docker daemon`, or an error that mentions `dockerDesktopLinuxEngine` | Start Docker Desktop and wait until it shows that the engine is running. On Linux, start the Docker service. |
 | `permission denied` on Linux | Put `sudo` in front of the command, or add your user to the `docker` group. |
 | Docker Desktop on Windows asks you to update WSL | Open a terminal as administrator, run `wsl --update`, then restart Docker Desktop. |
