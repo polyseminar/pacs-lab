@@ -129,7 +129,7 @@ Chen, L., Wang, W., Jin, K., Yuan, B., Tan, H., Sun, J., Guo, Y., Luo, Y., Feng,
 | The sign-in prompt keeps returning | Use user `orthanc` and password `orthanc`. |
 | `error encountered when reading a file` from the upload | Run the download first (step 3). |
 | The download stops with a network error | Run it again. |
-| The volume rendering views stay black | The graphics chip or its driver is too old for the 3D views (seen on a 2011 Intel HD Graphics). Update the graphics driver, or use a newer computer. The stack view still works. |
+| The volume rendering views stay black | The graphics chip or its driver is too old for the 3D views (seen on a 2011 Intel HD Graphics). Update the graphics driver. If that doesn't help, use a newer computer, or add a graphics card to a desktop PC (an NVIDIA GeForce GT 1030 fixed it on that same 2011 PC). The stack view still works. |
 
 ## License
 
